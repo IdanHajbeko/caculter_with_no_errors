@@ -1,102 +1,71 @@
+# this function checks if the input given by the user is a valid number.
+def checkIfValidNUm(num, shouldContinue):
+    numsAreValid = True
+    listOfnum = list(num)
+    for checkIfValidNum in listOfnum:
+        if checkIfValidNum not in "0123456789.":
+            numsAreValid = False
+            break
 
-while True:
-    try:
-        while True:
-            try:
-                n = float(input("1st number: "))
-            except ValueError:
-                print("use only numbers")
-            else:
-                while True:
-                    try:
-                        d = float(input("2end number: "))
-                    except ValueError:
-                        print("use only numbers")
-                    else:
-                        break
-                break
-    except:
-        print("somthing went wrong")
-        print("try again")
-        print("-----------------------------")
+    if numsAreValid == False:
+        if num != 'N':
+            print("use only numbers")
+        if num == 'N':
+            shouldContinue = False
+            print("exiting...")
+        return num, shouldContinue, numsAreValid
+    
+    # we could simply turn every number to a float but that will give less precision to real numbers.
+    if '.' in num:
+        num = float(num)
+
     else:
+        num = int(num)
+    
+    return num, shouldContinue, numsAreValid
+
+def makeCalc(operation, firstNum, secondNum, calcToDo, operationToCheck):
+    if operation == operationToCheck:
+        print(f"the answer is: {calcToDo}")
+        print("-----------------------------")
+
+def main():
+    shouldContinue = True
+    while shouldContinue:
+        firstNum = input("enter first number (enter N to exit): ")
+        firstNum, shouldContinue, numsAreValid = checkIfValidNUm(firstNum, shouldContinue)
+        if shouldContinue == False or numsAreValid == False:
+            continue
+
+        secondNum = input("enter second number (enter N to exit): ")
+        secondNum, shouldContinue, numsAreValid = checkIfValidNUm(secondNum, shouldContinue)
+        if shouldContinue == False or numsAreValid == False:
+            continue
+        
         while True:
-            error = False
-            try:
-                a = int(input("what do you want to do +[0], -[1], *[2], /[3]: "))
-                if a > 3:
-                    print("use only number between 0-3")
-                    error = True
-            except ValueError:
-                error = True
-                print("use only numbers")
-            if not error:
-                try:
-                    if a == 0:
-                        try:
-                            ans = float(n) + float(d)
-                            print(f"the answer is: {ans}")
-                            print("-----------------------------")
-                        except:
-                            print("somthing went wrong")
-                            print("try again")
-                            print("-----------------------------")
-                except:
-                    print("somthing went wrong")
-                    print("try again")
-                    print("-----------------------------")
-                else:
-                    try:
-                        if a == 1:
-                            try:
-                                ans = float(n) - float(d)
-                                print(f"the answer is: {ans}")
-                                print("-----------------------------")
-                            except:
-                                print("somthing went wrong")
-                                print("try again")
-                                print("-----------------------------")
-                    except:
-                        print("somthing went wrong")
-                        print("try again")
-                        print("-----------------------------")
-                    else:
-                        try:
-                            if a == 2:
-                                try:
-                                    ans = float(n) * float(d)
-                                    print(f"the answer is: {ans}")
-                                    print("-----------------------------")
-                                except:
-                                    print("somthing went wrong")
-                                    print("try again")
-                                    print("-----------------------------")
-                        except:
-                            print("somthing went wrong")
-                            print("try again")
-                            print("-----------------------------")
-                        else:
-                            try:
-                                if a == 3:
-                                    try:
-                                        ans = float(n)/float(d)
-                                    except ZeroDivisionError:
-                                        print("cannot divide by zero!")
-                                        print("try again pleas")
-                                        print("-----------------------------")
-                                    except ValueError:
-                                        print("can only divide by a number!")
-                                        print("try again pleas")
-                                        print("-----------------------------")
-                                    except:
-                                        print("somthing went wrong")
-                                        print("try again")
-                                        print("-----------------------------")
-                                    else:
-                                        print(f"the answer is: {ans}")
-                                        print("-----------------------------")
-                            except:
-                                print("somthing went wrong")
-                                print("try again")
-                                print("-----------------------------")
+            operation = input("what do you want to do (+, -, *, /): ")
+            if operation not in "+-*/":
+                print("choose a valid operator")
+                continue
+            
+            if operation == "/" and secondNum == 0:
+                print("cannot divide by zero!")
+                print("try again pleas")
+                print("-----------------------------")
                 break
+
+            makeCalc(operation, firstNum, secondNum, calcToDo)
+                        
+            shouldContinueToNextLoop = input("do you want to continue? (Y/N) ")
+            if shouldContinueToNextLoop == 'Y':
+                break
+            elif shouldContinueToNextLoop == 'N':
+                print("exiting...")
+                exit()
+            else:
+                print("not a valid option, continuing anyways")
+                break
+
+            break
+
+main()
